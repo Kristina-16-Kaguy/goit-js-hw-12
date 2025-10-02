@@ -9,10 +9,6 @@
   animation: rotation 1s linear infinite;
 }
 
-.loader.is-visible {
-  display: block;
-}
-
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -93,6 +89,10 @@ input::placeholder {
   background-color: #6c8cff;
 }
 
+.load-more {
+  display: none;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, 360px);
@@ -147,4 +147,8 @@ input::placeholder {
   line-height: 2;
   letter-spacing: 0.04em;
   color: #2e2f42;
+}
+
+.is-visible {
+  display: block;
 }

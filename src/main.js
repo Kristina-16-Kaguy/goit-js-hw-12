@@ -4,6 +4,8 @@ import {
   createGallery,
   hideLoader,
   showLoader,
+  showLoadMoreButton,
+  hideLoadMoreButton,
 } from './js/render-functions.js';
 import { refs } from './js/refs.js';
 import { showError } from './js/iziToastHelper.js';
@@ -14,15 +16,16 @@ let inputValue;
 refs.form.addEventListener('submit', async event => {
   event.preventDefault();
   inputValue = event.target.elements['search-text'].value.trim();
-
   if (!inputValue) return;
   clearGallery();
+  hideLoadMoreButton();
   page = 1;
   showLoader();
 
   try {
     let images = await getImagesByQuery(inputValue, page);
     createGallery(images);
+    showLoadMoreButton();
   } catch (error) {
     showError(error.message);
   }

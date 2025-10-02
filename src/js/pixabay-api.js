@@ -3,16 +3,18 @@ import { showError } from './iziToastHelper.js';
 
 const API_KEY = '52515106-cf2fe0ed90e49660ada5f5535';
 const BASE_URL = 'https://pixabay.com/api/';
+const per_page = 15;
 
 export async function getImagesByQuery(query, page) {
   try {
     let response = await axios.get(BASE_URL, getParams(query, page));
     const images = response.data.hits;
+    const totalHits = response.data.totalHitsits;
     if (!images || !images.length) {
       showError(
         'Sorry, there are no images matching your search query. Please try again!'
       );
-      return [];
+      return { images: [], isLastPage: true };
     }
     return images;
   } catch (error) {
@@ -29,8 +31,13 @@ function getParams(query, page) {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      per_page: 15,
+      per_page: per_page,
       page: page,
     },
   };
+}
+
+function isLastPage(totalHits, page) {
+  let totalPages = Math.ceil(totalHits / per_page);
+  return page <= totalPages;
 }
