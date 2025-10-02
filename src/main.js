@@ -6,15 +6,21 @@ import {
   showLoader,
 } from './js/render-functions.js';
 import { refs } from './js/refs.js';
+import { showError } from './js/iziToastHelper.js';
 
-refs.form.addEventListener('submit', event => {
+refs.form.addEventListener('submit', async event => {
   event.preventDefault();
   const inputValue = event.target.elements['search-text'].value.trim();
 
   if (!inputValue) return;
   clearGallery();
   showLoader();
-  getImagesByQuery(inputValue)
-    .then(images => createGallery(images))
-    .finally(hideLoader);
+
+  try {
+    let images = await getImagesByQuery(inputValue);
+    createGallery(images);
+  } catch (error) {
+    showError(error.message);
+  }
+  hideLoader();
 });
