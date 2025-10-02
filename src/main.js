@@ -8,16 +8,31 @@ import {
 import { refs } from './js/refs.js';
 import { showError } from './js/iziToastHelper.js';
 
+let page = 1;
+let inputValue;
+
 refs.form.addEventListener('submit', async event => {
   event.preventDefault();
-  const inputValue = event.target.elements['search-text'].value.trim();
+  inputValue = event.target.elements['search-text'].value.trim();
 
   if (!inputValue) return;
   clearGallery();
   showLoader();
 
   try {
-    let images = await getImagesByQuery(inputValue);
+    let images = await getImagesByQuery(inputValue, page);
+    createGallery(images);
+  } catch (error) {
+    showError(error.message);
+  }
+  hideLoader();
+});
+
+refs.LoadMoreBtn.addEventListener('click', async () => {
+  // page++;
+  showLoader();
+  try {
+    let images = await getImagesByQuery(inputValue, ++page);
     createGallery(images);
   } catch (error) {
     showError(error.message);
