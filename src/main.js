@@ -17,6 +17,7 @@ refs.form.addEventListener('submit', async event => {
 
   if (!inputValue) return;
   clearGallery();
+  page = 1;
   showLoader();
 
   try {
@@ -30,6 +31,7 @@ refs.form.addEventListener('submit', async event => {
 
 refs.LoadMoreBtn.addEventListener('click', async () => {
   // page++;
+
   showLoader();
   try {
     let images = await getImagesByQuery(inputValue, ++page);
