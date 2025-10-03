@@ -60,4 +60,10 @@ export function hideLoadMoreButton() {
   refs.LoadMoreBtn.classList.remove('is-visible');
 }
 
-export function scrollBy() {}
+export function scrollBy() {
+  let heigth = refs.galleryItem.getBoundingClientRect().height;
+  window.scrollBy({
+    top: heigth * 2,
+    behavior: 'smooth',
+  });
+}

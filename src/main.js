@@ -9,7 +9,7 @@ import {
   scrollBy,
 } from './js/render-functions.js';
 import { refs } from './js/refs.js';
-import { showError } from './js/iziToastHelper.js';
+import { showError, showInfo } from './js/iziToastHelper.js';
 
 let page = 1;
 let inputValue;
@@ -24,10 +24,12 @@ refs.form.addEventListener('submit', async event => {
   showLoader();
 
   try {
-    let { images, isLastPage } = await getImagesByQuery(inputValue, ++page);
+    let { images, isLastPage } = await getImagesByQuery(inputValue, page++);
     createGallery(images);
     if (!isLastPage) {
       showLoadMoreButton();
+    } else {
+      showInfo("We're sorry, but you've reached the end of search results.");
     }
   } catch (error) {
     showError(error.message);
@@ -41,10 +43,13 @@ refs.LoadMoreBtn.addEventListener('click', async () => {
   showLoader();
 
   try {
-    let { images, isLastPage } = await getImagesByQuery(inputValue, ++page);
+    let { images, isLastPage } = await getImagesByQuery(inputValue, page++);
     createGallery(images);
+    scrollBy();
     if (!isLastPage) {
       showLoadMoreButton();
+    } else {
+      showInfo("We're sorry, but you've reached the end of search results.");
     }
   } catch (error) {
     showError(error.message);

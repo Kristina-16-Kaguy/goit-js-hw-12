@@ -7,3 +7,10 @@ export function showError(message) {
     position: 'topRight',
   });
 }
+
+export function showInfo(message) {
+  iziToast.info({
+    message: message,
+    position: 'topRight',
+  });
+}
