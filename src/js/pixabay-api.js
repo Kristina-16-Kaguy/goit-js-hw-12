@@ -9,17 +9,17 @@ export async function getImagesByQuery(query, page) {
   try {
     let response = await axios.get(BASE_URL, getParams(query, page));
     const images = response.data.hits;
-    const totalHits = response.data.totalHitsits;
+    const totalHits = response.data.totalHits;
     if (!images || !images.length) {
       showError(
         'Sorry, there are no images matching your search query. Please try again!'
       );
       return { images: [], isLastPage: true };
     }
-    return images;
+    return { images: images, isLastPage: isLastPage(totalHits, page) };
   } catch (error) {
     showError(error.message);
-    return [];
+    return { images: [], isLastPage: true };
   }
 }
 
@@ -39,5 +39,5 @@ function getParams(query, page) {
 
 function isLastPage(totalHits, page) {
   let totalPages = Math.ceil(totalHits / per_page);
-  return page <= totalPages;
+  return page >= totalPages;
 }

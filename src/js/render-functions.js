@@ -59,3 +59,5 @@ export function showLoadMoreButton() {
 export function hideLoadMoreButton() {
   refs.LoadMoreBtn.classList.remove('is-visible');
 }
+
+export function scrollBy() {}

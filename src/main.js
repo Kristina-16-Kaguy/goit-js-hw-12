@@ -6,6 +6,7 @@ import {
   showLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
+  scrollBy,
 } from './js/render-functions.js';
 import { refs } from './js/refs.js';
 import { showError } from './js/iziToastHelper.js';
@@ -23,9 +24,11 @@ refs.form.addEventListener('submit', async event => {
   showLoader();
 
   try {
-    let images = await getImagesByQuery(inputValue, page);
+    let { images, isLastPage } = await getImagesByQuery(inputValue, ++page);
     createGallery(images);
-    showLoadMoreButton();
+    if (!isLastPage) {
+      showLoadMoreButton();
+    }
   } catch (error) {
     showError(error.message);
   }
@@ -34,11 +37,15 @@ refs.form.addEventListener('submit', async event => {
 
 refs.LoadMoreBtn.addEventListener('click', async () => {
   // page++;
-
+  hideLoadMoreButton();
   showLoader();
+
   try {
-    let images = await getImagesByQuery(inputValue, ++page);
+    let { images, isLastPage } = await getImagesByQuery(inputValue, ++page);
     createGallery(images);
+    if (!isLastPage) {
+      showLoadMoreButton();
+    }
   } catch (error) {
     showError(error.message);
   }
