@@ -17,7 +17,11 @@ let inputValue;
 refs.form.addEventListener('submit', async event => {
   event.preventDefault();
   inputValue = event.target.elements['search-text'].value.trim();
-  if (!inputValue) return;
+  if (!inputValue) {
+    showError('Insert your request!');
+    return;
+  }
+
   clearGallery();
   hideLoadMoreButton();
   page = 1;
